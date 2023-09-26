@@ -1,0 +1,114 @@
+﻿<Window x:Class="AddressBook.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AddressBook"
+        mc:Ignorable="d"
+        Title="住所録" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:BoolConverter x:Key="BoolConverter"/>
+        <local:MultiBoolConverter x:Key="MultiBoolConverter"/>
+        <local:IsSelectedConverter x:Key="IsSelectedConverter"/>
+        <local:ZipConverter x:Key="ZipConverter"/>
+        <local:TelConverter x:Key="TelConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="240"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="dataGridAddr" Margin="8,8,8,0" AutoGenerateColumns="False" HorizontalGridLinesBrush="#FFB4B4B4" VerticalGridLinesBrush="#FFB4B4B4" SelectionMode="Single" SelectedValuePath="Id" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" ItemsSource="{Binding AddressList}" SelectedIndex="{Binding CurrentIndex}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="名前" Width="80" Binding="{Binding Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="郵便番号" Width="60" Binding="{Binding ZipCode, Converter={StaticResource ZipConverter}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="住所" Width="220" Binding="{Binding Address}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="電話番号" Width="90" Binding="{Binding Tel, Converter={StaticResource TelConverter}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="メール" Width="180" Binding="{Binding Mail}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="メモ" Width="*" Binding="{Binding Memo}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="0" Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonCreate" Content="追加" Margin="4,4,4,10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" Height="20" Click="buttonCreate_Click"/>
+                <Button x:Name="buttonUpdate" Content="修正" Margin="4,4,4,10" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" Height="20" Click="buttonUpdate_Click">
+                    <Button.IsEnabled>
+                        <Binding Converter="{StaticResource IsSelectedConverter}" ElementName="dataGridAddr" Path="SelectedIndex"/>
+                    </Button.IsEnabled>
+                </Button>
+                <Button x:Name="buttonDelete" Content="削除" Margin="4,4,4,10" Grid.Column="2" Grid.Row="3" VerticalAlignment="Bottom" Height="20" Click="buttonDelete_Click" >
+                    <Button.IsEnabled>
+                        <Binding Converter="{StaticResource IsSelectedConverter}" ElementName="dataGridAddr" Path="SelectedIndex"/>
+                    </Button.IsEnabled>
+                </Button>
+                <Button x:Name="buttonMstAddressMng" Content="住所マスタ管理" Margin="4,4,4,10" Grid.Column="3" Grid.Row="4" VerticalAlignment="Bottom" Height="20" Click="buttonMstAddressMng_Click"/>
+                <Button x:Name="buttonExit" Content="終了" Margin="4,4,10,10" Grid.Column="4" Grid.Row="5" VerticalAlignment="Bottom" Height="20" HorizontalAlignment="Right" Width="82" Click="buttonExit_Click"/>
+                <TextBox x:Name="textBoxTest" Grid.Column="4" HorizontalAlignment="Center" Margin="0,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+                    <Binding ElementName="dataGridAddr" Path="SelectedIndex" UpdateSourceTrigger="Default"/>
+                </TextBox>
+                <TextBox x:Name="textBoxTest2" Grid.Column="4" HorizontalAlignment="Center" Margin="0,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+                    <Binding Converter="{StaticResource IsSelectedConverter}" ElementName="dataGridAddr" Path="SelectedIndex" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" UpdateSourceTrigger="Default"/>
+                </TextBox>
+            </Grid>
+            <GroupBox Header="検索" Grid.Column="0" Grid.Row="0" Margin="8,8,8,8">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="labelName" Content="氏名" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label x:Name="labelZip" Content="郵便番号" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label x:Name="labelAddress" Content="住所" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label x:Name="labelTel" Content="電話番号" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label x:Name="labelMail" Content="メール" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label x:Name="labelMemo" Content="メモ" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <TextBox x:Name="textName" Grid.Column="1" Grid.Row="0" Margin="5,5,5,5">
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged"/>
+                    </TextBox>
+                    <TextBox x:Name="textZip"  Grid.Column="1" Grid.Row="1" Margin="5,5,5,5">
+                        <Binding Converter="{StaticResource ZipConverter}" Path="ZipCode" UpdateSourceTrigger="PropertyChanged"/>
+                    </TextBox>
+                    <TextBox x:Name="textAddress"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="5,5,5,5">
+                        <Binding Path="Address" UpdateSourceTrigger="PropertyChanged"/>
+                    </TextBox>
+                    <TextBox x:Name="textTel"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5,5,5,5">
+                        <Binding Path="Tel" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TelConverter}"/>
+                    </TextBox>
+                    <TextBox x:Name="textMail"  Grid.Column="1" Grid.Row="4" Margin="5,5,5,5" Grid.ColumnSpan="2">
+                        <Binding Path="Mail" UpdateSourceTrigger="PropertyChanged"/>
+                    </TextBox>
+                    <TextBox x:Name="textMemo"  Grid.Column="1" Grid.Row="5" Margin="5,5,5,5" Grid.ColumnSpan="2">
+                        <Binding Path="Memo" UpdateSourceTrigger="PropertyChanged"/>
+                    </TextBox>
+                    <Button x:Name="buttonClear" Content="クリア" Grid.Column="1" Grid.Row="6" Margin="4,4,4,4" Click="buttonClear_Click"/>
+                    <Button x:Name="buttonFind" Content="検索" Grid.Column="2" Grid.Row="6" Margin="4,4,4,4" Click="buttonFind_Click"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

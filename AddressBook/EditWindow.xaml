@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AddressBook"
+        xmlns:cnv="clr-namespace:AddressBook.converter"
+        xmlns:val="clr-namespace:AddressBook.validator"
         mc:Ignorable="d"
         Title="MainWindow" Height="380" Width="480" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <local:BoolConverter x:Key="BoolConverter"/>
-        <local:MultiBoolConverter x:Key="MultiBoolConverter"/>
-        <local:ZipConverter x:Key="ZipConverter"/>
-        <local:TelConverter x:Key="TelConverter"/>
+        <cnv:BoolConverter x:Key="BoolConverter"/>
+        <cnv:MultiBoolConverter x:Key="MultiBoolConverter"/>
+        <cnv:ZipConverter x:Key="ZipConverter"/>
+        <cnv:TelConverter x:Key="TelConverter"/>
         <Style TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -76,7 +78,7 @@
             <TextBox.Text>
                 <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="2" MaxLength="20"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="2" MaxLength="20"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -85,7 +87,7 @@
             <TextBox.Text>
                 <Binding Converter="{StaticResource ZipConverter}" Path="ZipCode" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:ZipValidationRule ValidatesOnTargetUpdated="True"/>
+                        <val:ZipValidationRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -94,7 +96,7 @@
             <ComboBox.Text>
                 <Binding Path="Pref" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="10"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="10"/>
                     </Binding.ValidationRules>
                 </Binding>
             </ComboBox.Text>
@@ -103,7 +105,7 @@
             <TextBox.Text>
                 <Binding Path="City" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="20"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="20"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -112,7 +114,7 @@
             <ComboBox.Text>
                 <Binding Path="Town" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="40"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="40"/>
                     </Binding.ValidationRules>
                 </Binding>
             </ComboBox.Text>
@@ -121,7 +123,7 @@
             <TextBox.Text>
                 <Binding Path="Block" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="40"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="40"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -130,7 +132,7 @@
             <TextBox.Text>
                 <Binding Path="Apart" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="40"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="40"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -139,7 +141,7 @@
             <TextBox.Text>
                 <Binding Converter="{StaticResource TelConverter}" Path="Tel" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="13"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="13"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -148,7 +150,7 @@
             <TextBox.Text>
                 <Binding Path="Mail" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="80"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="80"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -157,7 +159,7 @@
             <TextBox.Text>
                 <Binding Path="Memo" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="256"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="0" MaxLength="256"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>

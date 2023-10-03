@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace AddressBook
+namespace AddressBook.converter
 {
     internal class ZipConverter : IValueConverter
     {

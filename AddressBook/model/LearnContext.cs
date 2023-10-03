@@ -11,7 +11,7 @@ public partial class LearnContext : DbContext
     public LearnContext()
     {
     }
-    
+
     public LearnContext(DbContextOptions<LearnContext> options)
         : base(options)
     {
@@ -23,8 +23,6 @@ public partial class LearnContext : DbContext
 
     public virtual DbSet<MstCity> MstCities { get; set; }
 
-    public virtual DbSet<MstGovCode> MstGovCodes { get; set; }
-
     public virtual DbSet<MstPrefecture> MstPrefectures { get; set; }
 
     public virtual DbSet<MstZip> MstZips { get; set; }
@@ -34,7 +32,7 @@ public partial class LearnContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AddressBookDatabase"].ConnectionString);
-        optionsBuilder.LogTo(message => Debug.WriteLine(message));
+        //optionsBuilder.LogTo(message => Debug.WriteLine(message));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -151,75 +149,22 @@ public partial class LearnContext : DbContext
                 .HasColumnName("pref");
         });
 
-        modelBuilder.Entity<MstGovCode>(entity =>
+        modelBuilder.Entity<MstPrefecture>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("mst_gov_code_PKC");
+            entity.HasKey(e => e.Id).HasName("mst_prefecture_PKC");
 
-            entity.ToTable("mst_gov_code", tb => tb.HasComment("行政区域コードマスタ"));
+            entity.ToTable("mst_prefecture", tb => tb.HasComment("都道府県マスタ"));
 
             entity.Property(e => e.Id)
                 .HasComment("ＩＤ")
                 .HasColumnName("id");
-            entity.Property(e => e.City)
-                .HasMaxLength(20)
-                .HasComment("市区町村名（漢字）")
-                .HasColumnName("city");
-            entity.Property(e => e.CityCana)
-                .HasMaxLength(40)
-                .HasComment("市区町村名（ｶﾅ）")
-                .HasColumnName("city_cana");
-            entity.Property(e => e.GovCode)
-                .HasMaxLength(5)
-                .HasComment("行政区域コード")
-                .HasColumnName("gov_code");
             entity.Property(e => e.Pref)
                 .HasMaxLength(10)
-                .HasComment("都道府県名（漢字）")
+                .HasComment("都道府県名")
                 .HasColumnName("pref");
             entity.Property(e => e.PrefKana)
                 .HasMaxLength(10)
-                .HasComment("都道府県名（ｶﾅ）")
-                .HasColumnName("pref_kana");
-            entity.Property(e => e.Rev)
-                .HasMaxLength(20)
-                .HasComment("コードの改定区分")
-                .HasColumnName("rev");
-            entity.Property(e => e.RevCode)
-                .HasMaxLength(5)
-                .HasComment("改正後のコード")
-                .HasColumnName("rev_code");
-            entity.Property(e => e.RevDate)
-                .HasComment("改正年月日")
-                .HasColumnType("date")
-                .HasColumnName("rev_date");
-            entity.Property(e => e.RevName)
-                .HasMaxLength(20)
-                .HasComment("改正後の名称")
-                .HasColumnName("rev_name");
-            entity.Property(e => e.RevNameKana)
-                .HasMaxLength(20)
-                .HasComment("改正後の名称(ｶﾅ)")
-                .HasColumnName("rev_name_kana");
-            entity.Property(e => e.RevReason)
-                .HasMaxLength(40)
-                .HasComment("改正事由等")
-                .HasColumnName("rev_reason");
-        });
-
-        modelBuilder.Entity<MstPrefecture>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__mst_pref__3213E83F1248CDEB");
-
-            entity.ToTable("mst_prefecture");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.Pref)
-                .HasMaxLength(10)
-                .HasColumnName("pref");
-            entity.Property(e => e.PrefKana)
-                .HasMaxLength(10)
+                .HasComment("都道府県名（カナ）")
                 .HasColumnName("pref_kana");
         });
 

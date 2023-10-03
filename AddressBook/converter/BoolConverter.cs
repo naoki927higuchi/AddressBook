@@ -6,15 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace AddressBook
+namespace AddressBook.converter
 {
-    internal class IsSelectedConverter : IValueConverter
+    class BoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                return false;
-            return (int)value != -1;
+            return !(bool)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

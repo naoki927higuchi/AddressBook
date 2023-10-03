@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace AddressBook
+namespace AddressBook.validator
 {
     internal class StrValidationRule : ValidationRule
     {
@@ -11,7 +11,10 @@ namespace AddressBook
         {
             if (value is null)
             {
-                return new ValidationResult(false, "値がNullです");
+                if (MinLength == 0)
+                    return ValidationResult.ValidResult;
+                else
+                    return new ValidationResult(false, "この項目は必須です");
             }
             string? str = value.ToString();
             if (str != null)

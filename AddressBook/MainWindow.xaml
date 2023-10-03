@@ -4,14 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AddressBook"
+        xmlns:cnv="clr-namespace:AddressBook.converter"
+        xmlns:val="clr-namespace:AddressBook.validator"
         mc:Ignorable="d"
         Title="住所録" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
-        <local:BoolConverter x:Key="BoolConverter"/>
-        <local:MultiBoolConverter x:Key="MultiBoolConverter"/>
-        <local:IsSelectedConverter x:Key="IsSelectedConverter"/>
-        <local:ZipConverter x:Key="ZipConverter"/>
-        <local:TelConverter x:Key="TelConverter"/>
+        <cnv:BoolConverter x:Key="BoolConverter"/>
+        <cnv:MultiBoolConverter x:Key="MultiBoolConverter"/>
+        <cnv:IsSelectedConverter x:Key="IsSelectedConverter"/>
+        <cnv:ZipConverter x:Key="ZipConverter"/>
+        <cnv:TelConverter x:Key="TelConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -55,14 +57,8 @@
                         <Binding Converter="{StaticResource IsSelectedConverter}" ElementName="dataGridAddr" Path="SelectedIndex"/>
                     </Button.IsEnabled>
                 </Button>
-                <Button x:Name="buttonMstAddressMng" Content="住所マスタ管理" Margin="4,4,4,10" Grid.Column="3" Grid.Row="4" VerticalAlignment="Bottom" Height="20" Click="buttonMstAddressMng_Click"/>
+                <Button x:Name="buttonMstAddressMng" Content="マスタ管理" Margin="4,4,4,10" Grid.Column="3" Grid.Row="4" VerticalAlignment="Bottom" Height="20" Click="buttonMstAddressMng_Click"/>
                 <Button x:Name="buttonExit" Content="終了" Margin="4,4,10,10" Grid.Column="4" Grid.Row="5" VerticalAlignment="Bottom" Height="20" HorizontalAlignment="Right" Width="82" Click="buttonExit_Click"/>
-                <TextBox x:Name="textBoxTest" Grid.Column="4" HorizontalAlignment="Center" Margin="0,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
-                    <Binding ElementName="dataGridAddr" Path="SelectedIndex" UpdateSourceTrigger="Default"/>
-                </TextBox>
-                <TextBox x:Name="textBoxTest2" Grid.Column="4" HorizontalAlignment="Center" Margin="0,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
-                    <Binding Converter="{StaticResource IsSelectedConverter}" ElementName="dataGridAddr" Path="SelectedIndex" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" UpdateSourceTrigger="Default"/>
-                </TextBox>
             </Grid>
             <GroupBox Header="検索" Grid.Column="0" Grid.Row="0" Margin="8,8,8,8">
                 <Grid >

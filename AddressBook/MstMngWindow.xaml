@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AddressBook"
+        xmlns:cnv="clr-namespace:AddressBook.converter"
+        xmlns:val="clr-namespace:AddressBook.validator"
         mc:Ignorable="d"
-        Title="マスタデータ管理" Height="450" Width="800">
+        Title="マスタ管理" Height="450" Width="800">
     <Window.Resources>
-        <local:BoolConverter x:Key="BoolConverter"/>
+        <cnv:BoolConverter x:Key="BoolConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,7 +30,7 @@
             <TextBox.Text>
                 <Binding Path="ZipFileName" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="255"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="255"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -37,7 +39,7 @@
             <TextBox.Text>
                 <Binding Path="TelFileName" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <local:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="255"/>
+                        <val:StrValidationRule ValidatesOnTargetUpdated="True" MinLength="1" MaxLength="255"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>

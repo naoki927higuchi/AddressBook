@@ -1,4 +1,5 @@
-﻿using AddressBook.model;
+﻿using AddressBook.comparer;
+using AddressBook.model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System;
@@ -65,12 +66,15 @@ namespace AddressBook
             {
                 List<MstAddress> addresses = new List<MstAddress>();
                 List<MstZip> zips = new List<MstZip>();
+                List<MstCity> cities = new List<MstCity>();
+                List<MstPrefecture> prefectures = new List<MstPrefecture>();
                 string? line = string.Empty;
                 while ((line = stream.ReadLine()) != null)
                 {
                     line = line.Replace("\"", "");
                     string[] strings = line.Split(new char[] { ',' }, StringSplitOptions.TrimEntries);
                     
+                    // 住所マスタ
                     MstAddress mstAddress = new MstAddress()
                     {
                         GovCode = strings[0],
@@ -90,12 +94,29 @@ namespace AddressBook
                         Code6 = int.Parse(strings[14])
                     };
                     addresses.Add(mstAddress);
+                    // 都道府県マスタ
+                    MstPrefecture pref = new MstPrefecture()
+                    {
+                        Pref = mstAddress.Pref,
+                        PrefKana = mstAddress.PrefKana
+                    };
+                    prefectures.Add(pref);
 
+                    // 市区町村マスタ
+                    MstCity city = new MstCity()
+                    {
+                        GovCode = mstAddress.GovCode,
+                        Pref = mstAddress.Pref,
+                        City = mstAddress.City
+                    };
+                    cities.Add(city);
+
+                    // 郵便番号マスタ
                     MstZip zip = new MstZip()
                     {
-                        GovCode = strings[0],
-                        ZipCode = strings[2],
-                        Town = strings[8]
+                        GovCode = mstAddress.GovCode,
+                        ZipCode = mstAddress.ZipCode,
+                        Town = mstAddress.Town
                     };
 
                     List<string> listTowns = new List<string>();
@@ -166,10 +187,20 @@ namespace AddressBook
 
                 using (var lc = new LearnContext())
                 {
-                    // 郵便番号マスタ全レコード削除
+                    // 都道府県マスタ
+                    lc.Database.ExecuteSqlRaw(@"delete from mst_prefecture");
+                    lc.MstPrefectures.AddRange(prefectures.Distinct(new MstPrefComparer()));
+                    lc.Database.ExecuteSqlRaw(@"DBCC CHECKIDENT ('mst_prefecture', RESEED, 0)");
+
+                    // 市区町村マスタ
+                    lc.Database.ExecuteSqlRaw(@"delete from mst_city");
+                    lc.MstCities.AddRange(cities.Distinct(new MstCityComparer()));
+
+                    // 郵便番号マスタ
                     lc.Database.ExecuteSqlRaw(@"delete from mst_zip");
                     lc.MstZips.AddRange(zips.Distinct(new MstZipComparer()));
                     lc.Database.ExecuteSqlRaw(@"DBCC CHECKIDENT ('mst_zip', RESEED, 0)");
+                    
                     lc.SaveChanges();
                 }
             }

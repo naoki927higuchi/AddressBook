@@ -74,7 +74,7 @@ namespace AddressBook
                     }
                     else
                     {
-                        this.Title = "登録";
+                        this.Title = "追加";
                         buttonCreate.Visibility = Visibility.Visible;
                         buttonUpdate.Visibility = Visibility.Collapsed;
                     }

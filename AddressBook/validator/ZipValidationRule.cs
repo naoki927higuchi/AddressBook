@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace AddressBook
+namespace AddressBook.validator
 {
-    internal class TelValidationRule : ValidationRule
+    internal class ZipValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
@@ -17,15 +17,14 @@ namespace AddressBook
             {
                 return new ValidationResult(false, "値がNullです");
             }
-            string? tel = value.ToString();
-            if (tel != null)
+            string? zip = value.ToString();
+            if (zip != null)
             {
-                tel = tel.Replace("-", "");
-                if (Regex.IsMatch(tel, @"^[0-9]{11}$") || Regex.IsMatch(tel, @"^[0-9]{10}$"))
+                if (Regex.IsMatch(zip, @"^[0-9]{7}$") || Regex.IsMatch(zip, @"^[0-9]{3}-[0-9]{4}$"))
                 {
                     return ValidationResult.ValidResult;
                 }
-                if (tel.Length == 0)
+                if (zip.Length == 0)
                 {
                     return new ValidationResult(false, "この項目は必須です");
                 }

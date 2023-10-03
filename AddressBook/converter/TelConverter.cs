@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace AddressBook
+namespace AddressBook.converter
 {
     internal class TelConverter : IValueConverter
     {
@@ -24,7 +24,7 @@ namespace AddressBook
                     string[] area_codes = { tel.Substring(1, 1), tel.Substring(1, 2), tel.Substring(1, 3), tel.Substring(1, 4) };
                     var result = lc.MstAreaCodes
                         .GroupBy(x => x.AreaCode)
-                        .Select(x => new { AreaCode = x.Key, Length = x.Key.Length })
+                        .Select(x => new { AreaCode = x.Key, x.Key.Length })
                         .Where(x => area_codes.Contains(x.AreaCode))
                         .OrderByDescending(x => x.Length);
                     if (result.Any())

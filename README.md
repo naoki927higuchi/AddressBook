@@ -10,6 +10,7 @@
 　http://afmodeler.com/uncategorized/design_db/
 ・接続文字列の修正
 　AddressBook\AddressBook\App.configを修正する。
+　Windows認証にする場合はIntegrated Security=TrueとしてID/Passwordを削除すればよい。 # New !!
 
 儀式が終了したらビルドしたアプリを実行してマスタ管理画面で郵便番号データおよび電話番号データを更新する。
 

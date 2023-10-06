@@ -214,7 +214,7 @@ namespace AddressBook
             List<MstAreaCode> areas = new List<MstAreaCode>();
             using (StreamReader stream = new StreamReader(VM.TelFileName))
             {
-                string? line = line = stream.ReadLine();
+                string? line = string.Empty;
                 while ((line = stream.ReadLine()) != null)
                 {
                     line = line.Replace("\"", "");

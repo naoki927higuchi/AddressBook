@@ -29,11 +29,11 @@ public partial class LearnContext : DbContext
 
     public virtual DbSet<TrnAddress> TrnAddresses { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AddressBookDatabase"].ConnectionString);
-        optionsBuilder.LogTo(message => Debug.WriteLine(message));
-    }
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AddressBookDatabase"].ConnectionString);
+    //optionsBuilder.LogTo(message => Debug.WriteLine(message));
+}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
